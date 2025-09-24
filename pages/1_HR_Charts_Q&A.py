@@ -53,13 +53,15 @@ DEMO_CHARTS = {
 }
 
 
+# =================================================================
+# UI
+# =================================================================
 st.title("📊 HR Chart Reasoning")
 
 selected_chart = st.selectbox(
     "Which chart do you want to analyze?",
     (list(DEMO_CHARTS.keys())),
 )
-
 
 sys_prompt = """You are an HR expert. Given a chart, you have to answer to a question about it.
 Here is the chart information:
@@ -85,7 +87,6 @@ image = Image.open(DEMO_CHARTS[selected_chart]["path"])
 
 with st.chat_message("user"):
     st.image(image, caption=selected_chart, use_container_width=True)
-
 
 if question := st.chat_input():
     st.session_state.messages.append({
