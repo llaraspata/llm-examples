@@ -173,33 +173,135 @@ if "probing_model" not in st.session_state:
     st.session_state["probing_model"] = probing_model
 
 
-#with st.sidebar:
-#    "[Get an OpenAI API key](https://platform.openai.com/account/api-keys)"
-#    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
-#    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
 
-st.title("🌃 European Research Night 2025 ")
-st.text("🍄 Detect hallucinations")
-st.text("🚀 Get insights from HR Charts")
+st.title("🌃 European Research Night 2025")
+st.markdown("---")
 
-#if "messages" not in st.session_state:
-#    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
-#
-#for msg in st.session_state.messages:
-#    st.chat_message(msg["role"]).write(msg["content"])
-#
-#if prompt := st.chat_input():
-#    if not openai_api_key:
-#        st.info("Please add your OpenAI API key to continue.")
-#        st.stop()
-#
-#    client = OpenAI(api_key=openai_api_key)
-#    st.session_state.messages.append({"role": "user", "content": prompt})
-#    st.chat_message("user").write(prompt)
-#    response = client.chat.completions.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
-#    msg = response.choices[0].message.content
-#    st.session_state.messages.append({"role": "assistant", "content": msg})
-#    st.chat_message("assistant").write(msg)
+# Demo 1: Rilevamento delle Allucinazioni
+st.header("🍄 Rilevamento delle Allucinazioni")
+st.markdown("🔍 **Scopri come la nostra IA rileva quando sta inventando le cose!**")
+
+col1, col2 = st.columns([2, 1])
+
+with col1:
+        st.markdown("""
+        ### Cos'è il Rilevamento delle Allucinazioni? 🤔
+        
+        **L'Allucinazione dell'IA** si verifica quando i modelli linguistici generano informazioni che suonano plausibili ma sono in realtà incorrette o inventate. La nostra demo utilizza **tecniche di probing avanzate** per rilevare queste allucinazioni in tempo reale!
+        
+        ### Come Funziona 🧠
+        
+        1. **🔬 Neural Probing**: Addestriamo un classificatore leggero per analizzare le rappresentazioni interne del nostro modello Llama-3.1-8B
+        2. **📊 Analisi degli Stati Nascosti**: Il classificatore esamina gli stati nascosti del layer 26 (4096 dimensioni) per identificare pattern di incertezza
+        3. **⚡ Rilevamento in Tempo Reale**: Mentre il modello genera risposte, il nostro modello di probing valuta simultaneamente i livelli di confidenza
+        4. **🔍 Classificazione Binaria**: Il sistema determina se la risposta è probabile che contenga allucinazioni
+        
+        ### Perché È Importante 🌟
+        - **🛡️ IA Affidabile**: Aiuta gli utenti a identificare quando le risposte dell'IA potrebbero essere inaffidabili
+        - **🔬 Impatto della Ricerca**: Contribuisce a un deployment più sicuro dell'IA in applicazioni critiche
+        - **📚 Valore Educativo**: Dimostra tecniche all'avanguardia nell'interpretabilità dell'IA
+        """)
+    
+with col2:
+    st.markdown("""
+    ### Stack Tecnico 🔧
+    - **Modello**: Llama-3.1-8B-Instruct
+    - **Probing**: Regressione Logistica
+    - **Layer Target**: Layer 26
+    - **Dimensioni Input**: 4096
+    - **Lingua**: Italiano 🇮🇹
+    
+    ### Caratteristiche Principali ✨
+    - Analisi in tempo reale
+    - Feedback visivo
+    - Chat interattiva
+    - Nessuna API esterna necessaria
+    """)
 
 
+st.markdown("---")
 
+# Demo 2: Analisi Grafici HR e Insights
+st.header("🚀 Analisi e Insights dei Grafici HR")
+st.markdown("📊 **Trasforma i tuoi dati HR in insights azionabili con l'IA!**")
+
+col1, col2 = st.columns([2, 1])
+
+with col1:
+        st.markdown("""
+        ### Cos'è l'Analisi Grafici HR Q&A? 📈
+        
+        Il nostro sistema di **Visual Question Answering (VQA)** combina computer vision e natural language processing per analizzare grafici HR e rispondere a domande complesse sui dati della tua forza lavoro.
+        
+        ### Categorie di Grafici Disponibili 📋
+        
+        **🏢 Analisi della Forza Lavoro**
+        - Distribuzione del personale per genere
+        - Analisi della gerarchia manageriale
+        - Suddivisione per livello di anzianità
+        
+        **💰 Intelligence sulla Retribuzione**  
+        - Retribuzione media per genere
+        - Analisi dell'equità salariale (rapporti CR)
+        - Tendenze retributive basate sull'età
+        - Classificazioni di categorie speciali
+        
+        **⭐ Gestione delle Performance**
+        - Matrice di valutazione dei talenti 9-Box
+        - Correlazioni performance-potenziale
+        
+        ### Come Funziona 🔄
+        
+        1. **📸 Upload Grafico**: Seleziona dai grafici di visualizzazione HR pre-caricati
+        2. **🤖 Vision AI**: Il modello Llava-7B elabora le informazioni visive
+        3. **💬 Query Naturali**: Fai domande in linguaggio naturale sui dati
+        4. **🎯 Analisi Esperta**: Ottieni insights focalizzati su HR con comprensione contestuale
+        """)
+
+with col2:
+    st.markdown("""
+        ### Stack Tecnico 🛠️
+        - **Modello Vision**: Llava-7B
+        - **Framework**: Ollama
+        - **Tipi di Grafici**: Visualizzazioni PNG
+        - **Domini**: 3 aree HR chiave
+        
+        ### Casi d'Uso 🎯
+        - **📊 Esplorazione Dati**: Insights rapidi da grafici complessi
+        - **🔍 Analisi Tendenze**: Identifica pattern e anomalie  
+        - **📝 Generazione Report**: Reporting HR assistito dall'IA
+        - **⚖️ Valutazione Equità**: Analisi del divario di genere e salariale
+        - **📈 Pianificazione Strategica**: Decisioni HR basate sui dati
+        
+        ### Vantaggi 💡
+        - Non serve esperienza nella lettura di grafici
+        - Risposte istantanee alle domande
+        - Conoscenza HR multi-dominio  
+        - Esplorazione interattiva
+        """)
+
+st.markdown("---")
+
+# Invito all'Azione
+st.markdown("""
+### 🎮 Pronto per Esplorare?
+
+Scegli la tua avventura qui sotto e scopri il potere dell'IA in azione!
+""")
+
+col1, col2 = st.columns(2)
+with col1:
+    st.markdown("""
+    <div style="text-align: center; padding: 20px; border: 2px solid #ff6b6b; border-radius: 10px; background-color: #ffe6e6;">
+    <h3>🍄 Prova il Rilevamento delle Allucinazioni</h3>
+    <p><strong>Fai domande in italiano e guarda la nostra IA rilevare le proprie incertezze!</strong></p>
+    </div>
+    """, unsafe_allow_html=True)
+
+with col2:
+    st.markdown("""
+    <div style="text-align: center; padding: 20px; border: 2px solid #4ecdc4; border-radius: 10px; background-color: #e6fffe;">
+    <h3>📊 Esplora l'Analisi HR</h3>
+    <p><strong>Interroga i grafici della forza lavoro e ottieni insights istantanei sulla tua organizzazione!</strong></p>
+    </div>
+    """, unsafe_allow_html=True)

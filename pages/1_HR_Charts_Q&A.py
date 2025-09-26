@@ -8,75 +8,81 @@ from streamlit_image_select import image_select
 PROJECT_ROOT = os.getcwd()
 IMG_PATH = os.path.join(PROJECT_ROOT, "assets")
 VLM_NAME = "llava:7b"
-
 DEMO_CHARTS = {
-    "Average Compensation by Gender": {
+    "Compenso medio per genere": {
         "path": os.path.join(IMG_PATH, "avg_compensation_by_gender.png"),
-        "domain": "Compensation",
-        "description": "This chart shows the average compensation by gender."
+        "domain": "Compensazione",
+        "description": "Questo grafico mostra il compenso medio per genere."
     },
-    "Employees by CR and Gender": {
+    "Dipendenti per CR e genere": {
         "path": os.path.join(IMG_PATH, "employees_by_cr_gender.png"),
-        "domain": "Compensation",
-        "description": "This chart shows the distribution of employees by compensation ratio and gender."
+        "domain": "Compensazione",
+        "description": "Questo grafico mostra la distribuzione dei dipendenti per rapporto di compensazione e genere."
     },
-    "Headcount by Gender": {
+    "Numero dipendenti per genere": {
         "path": os.path.join(IMG_PATH, "headcount_by_gender.png"),
-        "domain": "Workforce",
-        "description": "This chart shows the headcount by gender."
+        "domain": "Forza lavoro",
+        "description": "Questo grafico mostra il numero di dipendenti per genere."
     },
-    "Manager employees by Gender": {
+    "Manager per genere": {
         "path": os.path.join(IMG_PATH, "manager_by_gender.png"),
-        "domain": "Workforce",
-        "description": "This chart shows the distribution of manager employees by gender."
+        "domain": "Forza lavoro",
+        "description": "Questo grafico mostra la distribuzione dei manager per genere."
     },
-    "Seniority by Gender": {
+    "Anzianità per genere": {
         "path": os.path.join(IMG_PATH, "seniority_by_gender.png"),
-        "domain": "Workforce",
-        "description": "This chart shows the distribution of employees by seniority and gender."
+        "domain": "Forza lavoro",
+        "description": "Questo grafico mostra la distribuzione dei dipendenti per anzianità e genere."
     },
     "Talent 9-Box": {
         "path": os.path.join(IMG_PATH, "talent_box.png"),
         "domain": "Performance",
-        "description": "This chart shows the number of employees in each performance-potential category in the latest review."
+        "description": "Questo grafico mostra il numero di dipendenti in ciascuna categoria di performance-potenziale nell'ultima valutazione."
     },
-    "Compensation by age group": {
+    "Compensazione per fascia d'età": {
         "path": os.path.join(IMG_PATH, "total_compensation.png"),
-        "domain": "Compensation",
-        "description": "This chart shows the average compensation by age group."
+        "domain": "Compensazione",
+        "description": "Questo grafico mostra il compenso medio per fascia d'età."
     },
-    "Employees by Special Category": {
+    "Dipendenti per categoria speciale": {
         "path": os.path.join(IMG_PATH, "workers_by_special_category.png"),
-        "domain": "Compensation",
-        "description": "This chart shows the distribution of employees by special category."
+        "domain": "Compensazione",
+        "description": "Questo grafico mostra la distribuzione dei dipendenti per categoria speciale."
     },
 }
-
 
 # =================================================================
 # UI
 # =================================================================
 st.title("📊 HR Chart Reasoning")
 
+if "last_selected" not in st.session_state:
+    st.session_state["last_selected"] = list(DEMO_CHARTS.keys())[0]
+
 selected_chart = st.selectbox(
-    "Which chart do you want to analyze?",
+    "Quale grafico vuoi analizzare?",
     (list(DEMO_CHARTS.keys())),
 )
 
-sys_prompt = """You are an HR expert. Given a chart, you have to answer to a question about it.
-Here is the chart information:
-- Chart domain: {domain}
-- Chart title: {title}
-- Chart description: {description}
+if selected_chart != st.session_state["last_selected"]:
+    st.session_state["last_selected"] = selected_chart
+    if "messages" in st.session_state:
+        st.session_state["messages"] = []
 
-Be concise and to the point, using the information provided in the chart.""".format(
+sys_prompt = """Sei un esperto HR. Dato un grafico, devi rispondere a una domanda su di esso.
+Ecco le informazioni sul grafico:
+- Dominio del grafico: {domain}
+- Titolo del grafico: {title}
+- Descrizione del grafico: {description}
+
+Sii conciso e diretto, utilizzando le informazioni fornite nel grafico.""".format(
     domain=DEMO_CHARTS[selected_chart]["domain"],
     title=selected_chart,
     description=DEMO_CHARTS[selected_chart]["description"])
 
 if "messages" not in st.session_state:
     st.session_state["messages"] = [{"role": "system", "content": sys_prompt}]
-    st.session_state.messages.append({"role": "assistant", "content": "I can help you analyze HR charts. Ask me anything!"})
+    st.session_state.messages.append({"role": "assistant", "content": "Posso aiutarti ad analizzare i grafici HR. Chiedimi qualsiasi cosa!"})
 
 for msg in st.session_state.messages:
     if msg["role"] == "system":
